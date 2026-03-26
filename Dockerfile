@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /build/target/release/openfang /usr/local/bin/
 COPY --from=builder /build/agents /opt/openfang/agents
 EXPOSE 4200
-VOLUME /data
+RUN mkdir -p /data
 ENV OPENFANG_HOME=/data
 ENTRYPOINT ["openfang"]
-CMD ["start"]
+CMD ["start", "--host", "0.0.0.0", "--port", "4200"]

@@ -28,7 +28,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /build/target/release/openfang /usr/local/bin/
 COPY --from=builder /build/agents /opt/openfang/agents
 EXPOSE 4200
-RUN mkdir -p /data
+RUN mkdir -p /data /root/.openfang
+
+# Create config that binds to 0.0.0.0 for Railway
+RUN echo 'api_listen = "0.0.0.0:4200"\n\n[default_model]\nprovider = "gemini"\nmodel = "gemini-2.5-flash"\napi_key_env = "LLM_API_KEY"\n\n[network]\nlisten_addr = "0.0.0.0:4200"\n\n[memory]\ndecay_rate = 0.05' > /root/.openfang/config.toml
+
 ENV OPENFANG_HOME=/data
 ENTRYPOINT ["openfang"]
-CMD ["start", "--host", "0.0.0.0", "--port", "4200"]
+CMD ["start"]

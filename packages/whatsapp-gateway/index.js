@@ -16,8 +16,8 @@ const __dirname = path.dirname(__filename);
 // Config from environment
 // ---------------------------------------------------------------------------
 const PORT = parseInt(process.env.WHATSAPP_GATEWAY_PORT || '3009', 10);
-const OPENFANG_URL = (process.env.OPENFANG_URL || 'http://127.0.0.1:4200').replace(/\/+$/, '');
-const DEFAULT_AGENT = process.env.OPENFANG_DEFAULT_AGENT || 'assistant';
+const LUMYS_URL = (process.env.LUMYS_URL || 'http://127.0.0.1:4200').replace(/\/+$/, '');
+const DEFAULT_AGENT = process.env.LUMYS_DEFAULT_AGENT || 'assistant';
 
 // ---------------------------------------------------------------------------
 // State
@@ -52,7 +52,7 @@ async function startConnection() {
     auth: state,
     logger,
     printQRInTerminal: true,
-    browser: ['OpenFang', 'Desktop', '1.0.0'],
+    browser: ['Lumys OS', 'Desktop', '1.0.0'],
   });
 
   // Save credentials whenever they update
@@ -115,7 +115,7 @@ async function startConnection() {
     }
   });
 
-  // Incoming messages → forward to OpenFang
+  // Incoming messages → forward to Lumys OS
   sock.ev.on('messages.upsert', async ({ messages, type }) => {
     if (type !== 'notify') return;
 
@@ -161,9 +161,9 @@ async function startConnection() {
         console.log(`[gateway] Incoming from ${pushName} (${phone}): ${text.substring(0, 80)}`);
       }
 
-      // Forward to OpenFang agent
+      // Forward to Lumys OS agent
       try {
-        const response = await forwardToOpenFang(text, phone, pushName, metadata);
+        const response = await forwardToLumys OS(text, phone, pushName, metadata);
         if (response && sock) {
           // Reply in the same context: group → group, DM → DM
           const replyJid = isGroup ? remoteJid : senderJid.replace(/@.*$/, '') + '@s.whatsapp.net';
@@ -178,9 +178,9 @@ async function startConnection() {
 }
 
 // ---------------------------------------------------------------------------
-// Forward incoming message to OpenFang API, return agent response
+// Forward incoming message to Lumys OS API, return agent response
 // ---------------------------------------------------------------------------
-function forwardToOpenFang(text, phone, pushName, metadata) {
+function forwardToLumys OS(text, phone, pushName, metadata) {
   return new Promise((resolve, reject) => {
     const payload = JSON.stringify({
       message: text,
@@ -191,7 +191,7 @@ function forwardToOpenFang(text, phone, pushName, metadata) {
       },
     });
 
-    const url = new URL(`${OPENFANG_URL}/api/agents/${encodeURIComponent(DEFAULT_AGENT)}/message`);
+    const url = new URL(`${LUMYS_URL}/api/agents/${encodeURIComponent(DEFAULT_AGENT)}/message`);
 
     const req = http.request(
       {
@@ -223,7 +223,7 @@ function forwardToOpenFang(text, phone, pushName, metadata) {
     req.on('error', reject);
     req.on('timeout', () => {
       req.destroy();
-      reject(new Error('OpenFang API timeout'));
+      reject(new Error('Lumys OS API timeout'));
     });
     req.write(payload);
     req.end();
@@ -231,7 +231,7 @@ function forwardToOpenFang(text, phone, pushName, metadata) {
 }
 
 // ---------------------------------------------------------------------------
-// Send a message via Baileys (called by OpenFang for outgoing)
+// Send a message via Baileys (called by Lumys OS for outgoing)
 // ---------------------------------------------------------------------------
 async function sendMessage(to, text) {
   if (!sock || connStatus !== 'connected') {
@@ -358,7 +358,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, '127.0.0.1', () => {
   console.log(`[gateway] WhatsApp Web gateway listening on http://127.0.0.1:${PORT}`);
-  console.log(`[gateway] OpenFang URL: ${OPENFANG_URL}`);
+  console.log(`[gateway] Lumys OS URL: ${LUMYS_URL}`);
   console.log(`[gateway] Default agent: ${DEFAULT_AGENT}`);
 
   // Auto-connect if credentials already exist from a previous session

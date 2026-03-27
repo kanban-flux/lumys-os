@@ -1,16 +1,16 @@
-# NOTE: The GHCR image (ghcr.io/rightnow-ai/openfang) is not yet public.
+# NOTE: The GHCR image (ghcr.io/eni-ethereal-nexus/lumys-os) is not yet public.
 # For now, build from source using `docker compose up --build`.
-# See: https://github.com/RightNow-AI/openfang/issues/12
+# See: https://github.com/ENI-Ethereal-Nexus-Institute/lumys-os/issues/12
 
 version: "3.8"
 services:
-  openfang:
+  lumys:
     build: .
-    # image: ghcr.io/rightnow-ai/openfang:latest  # Uncomment when GHCR is public
+    # image: ghcr.io/eni-ethereal-nexus/lumys-os:latest  # Uncomment when GHCR is public
     ports:
       - "4200:4200"
     volumes:
-      - openfang-data:/data
+      - lumys-data:/data
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
@@ -22,4 +22,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  openfang-data:
+  lumys-data:

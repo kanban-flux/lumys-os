@@ -1,5 +1,5 @@
 {
-  description = "The OpenFang Agent OS";
+  description = "The Lumys OS Agent OS";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -27,7 +27,7 @@
           openssl
           pkg-config
         ];
-        rust-project.crates.openfang-desktop.crane.args.buildInputs = with pkgs; [
+        rust-project.crates.lumys-desktop.crane.args.buildInputs = with pkgs; [
           atk
           glib
           gtk3
@@ -36,17 +36,17 @@
           webkitgtk_4_1
         ];
 
-        packages.default = self'.packages.openfang-cli;
+        packages.default = self'.packages.lumys-cli;
         apps = {
-          openfang-cli = {
-            program = "${self'.packages.openfang-cli}/bin/openfang";
-            meta.description = "CLI tool for the OpenFang Agent OS";
+          lumys-cli = {
+            program = "${self'.packages.lumys-cli}/bin/lumys";
+            meta.description = "CLI tool for the Lumys OS Agent OS";
           };
-          openfang-desktop = {
-            program = "${self'.packages.openfang-desktop}/bin/openfang-desktop";
-            meta.description = "Native desktop application for the OpenFang Agent OS (Tauri 2.0)";
+          lumys-desktop = {
+            program = "${self'.packages.lumys-desktop}/bin/lumys-desktop";
+            meta.description = "Native desktop application for the Lumys OS Agent OS (Tauri 2.0)";
           };
-          default = self'.apps.openfang-cli;
+          default = self'.apps.lumys-cli;
         };
       };
       flake = {

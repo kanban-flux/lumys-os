@@ -1,0 +1,33 @@
+[package]
+name = "lumys-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "CLI tool for Lumys OS — AI Agent Operating System"
+
+[[bin]]
+name = "lumys"
+path = "src/main.rs"
+
+[dependencies]
+lumys-types = { path = "../lumys-types" }
+lumys-kernel = { path = "../lumys-kernel" }
+lumys-api = { path = "../lumys-api" }
+lumys-migrate = { path = "../lumys-migrate" }
+lumys-skills = { path = "../lumys-skills" }
+lumys-extensions = { path = "../lumys-extensions" }
+zeroize = { workspace = true }
+tokio = { workspace = true }
+clap = { workspace = true }
+clap_complete = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+dirs = { workspace = true }
+reqwest = { workspace = true, features = ["blocking"] }
+lumys-runtime = { path = "../lumys-runtime" }
+uuid = { workspace = true }
+ratatui = { workspace = true }
+colored = { workspace = true }

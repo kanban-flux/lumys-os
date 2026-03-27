@@ -13,7 +13,7 @@ ARG LTO=true
 ARG CODEGEN_UNITS=1
 ENV CARGO_PROFILE_RELEASE_LTO=${LTO} \
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS=${CODEGEN_UNITS}
-RUN cargo build --release --bin openfang
+RUN cargo build --release --bin lumys
 
 FROM rust:1-slim-bookworm
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -25,14 +25,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /build/target/release/openfang /usr/local/bin/
-COPY --from=builder /build/agents /opt/openfang/agents
+COPY --from=builder /build/target/release/lumys /usr/local/bin/
+COPY --from=builder /build/agents /opt/lumys/agents
 EXPOSE 4200
 RUN mkdir -p /data
 
-# Config goes in OPENFANG_HOME/config.toml (/data/config.toml)
+# Config goes in LUMYS_HOME/config.toml (/data/config.toml)
 RUN printf 'api_listen = "0.0.0.0:4200"\n\n[default_model]\nprovider = "gemini"\nmodel = "gemini-2.5-flash"\napi_key_env = "LLM_API_KEY"\n\n[network]\nlisten_addr = "0.0.0.0:4200"\n\n[memory]\ndecay_rate = 0.05\n' > /data/config.toml
 
-ENV OPENFANG_HOME=/data
-ENTRYPOINT ["openfang"]
+ENV LUMYS_HOME=/data
+ENTRYPOINT ["lumys"]
 CMD ["start"]

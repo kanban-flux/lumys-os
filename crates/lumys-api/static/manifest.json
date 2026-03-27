@@ -1,0 +1,13 @@
+{
+  "name": "Lumys OS - AI Agent Operating System",
+  "short_name": "Lumys OS",
+  "description": "AI Agent Operating System - Lightweight, Autonomous, Transformative",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1D1D1B",
+  "theme_color": "#432776",
+  "icons": [
+    {"src": "/logo.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/logo.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

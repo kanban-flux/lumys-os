@@ -1,0 +1,45 @@
+[package]
+name = "lumys-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "HTTP/WebSocket API server for the Lumys OS daemon"
+
+[dependencies]
+lumys-types = { path = "../lumys-types" }
+lumys-kernel = { path = "../lumys-kernel" }
+lumys-runtime = { path = "../lumys-runtime" }
+lumys-memory = { path = "../lumys-memory" }
+lumys-channels = { path = "../lumys-channels" }
+lumys-wire = { path = "../lumys-wire" }
+lumys-skills = { path = "../lumys-skills" }
+lumys-hands = { path = "../lumys-hands" }
+lumys-extensions = { path = "../lumys-extensions" }
+lumys-migrate = { path = "../lumys-migrate" }
+dashmap = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+tracing = { workspace = true }
+async-trait = { workspace = true }
+axum = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+futures = { workspace = true }
+governor = { workspace = true }
+tokio-stream = { workspace = true }
+subtle = { workspace = true }
+base64 = { workspace = true }
+sha2 = { workspace = true }
+hmac = { workspace = true }
+hex = { workspace = true }
+socket2 = { workspace = true }
+reqwest = { workspace = true }
+
+[dev-dependencies]
+tokio-test = { workspace = true }
+tempfile = { workspace = true }
+uuid = { workspace = true }
